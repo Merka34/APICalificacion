@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sistema de Calificaciones</title>
+    <style>
+        html {
+            background-color: cornflowerblue;
+        }
+
+        body {
+            width: 40%;
+            margin: auto;
+        }
+
+            body > h1 {
+                color: white;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-size: 40px;
+                text-align: center;
+            }
+
+        #login {
+            background: #000000AA;
+            border-radius: 50px;
+            height: 500px;
+        }
+
+            #login > h1 {
+                color: white;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-size: 30px;
+                text-align: center;
+            }
+
+            #login > form {
+                padding: 30px;
+                margin: auto;
+                background: #0205b3a2;
+                height: 50%;
+                width: 60%;
+                color: white;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-size: medium;
+            }
+
+                #login > form > input {
+                    width: 100%;
+                    font-size: xx-large;
+                    border: 1px solid black;
+                }
+
+                    #login > form > input[type=submit] {
+                        background-color: blue;
+                        margin-top: 20px;
+                        width: 100%;
+                    }
+    </style>
+</head>
+<body>
+    <h1>Sistema de Calificaciones</h1>
+    <div id="login">
+        <h1>Iniciar Sesión</h1>
+        <form method="post" action="~/Home/Index">
+            <label>Nombre de usuario:</label><br>
+            <input name="nombre" type="text" /><br>
+            <label>Contraseña:</label><br>
+            <input name="password" type="password" /><br>
+            <input type="submit" />
+            <p>@Html.ValidationSummary()</p>
+        </form>
+    </div>
+</body>
+</html>
+
+

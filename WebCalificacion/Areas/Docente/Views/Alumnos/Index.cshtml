@@ -1,0 +1,96 @@
+﻿@model IEnumerable<WebCalificacion.Models.Alumno>
+@{
+    ViewData["Title"] = "Index";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="StyleSheet1.css" rel="stylesheet" />
+    <title>Sistema de Calificaciones</title>
+    <style>
+        html {
+            background-color: cornflowerblue;
+        }
+
+        body {
+            position: relative;
+            padding: 0 10px;
+            background-color: #2f00ff3f;
+            width: 80%;
+            margin: auto;
+        }
+
+            body > h1 {
+                color: white;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-size: 40px;
+                text-align: center;
+            }
+
+            body > label {
+                color: white;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-size: 20px;
+                display: inline-block;
+                width: 250px;
+            }
+
+            body > a {
+                display: inline-block;
+                width: 200px;
+                height: 25px;
+                text-align: center;
+                padding-top: 2px;
+                background-color: blue;
+                color: white;
+                text-decoration: none;
+                font-size: larger;
+            }
+
+        #ac {
+            width: 250px;
+            display: block;
+            position: absolute;
+            right: 10px;
+        }
+
+            #ac > a {
+                background-color: tomato;
+                display: inline-block;
+                text-align: center;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                width: 120px;
+                color: white;
+                text-decoration: none;
+                font-size: 20px;
+            }
+
+        #btnAg {
+            position: absolute;
+            background-color: darkblue;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Alumnos Inscritos</h1>
+    <a id="btnAg" href="~/Docente/Alumnos/Agregar">Agregar</a>
+    <br />
+    <br />
+    @foreach (var alum in Model)
+    {
+        <label>@alum.NombreAlumno</label>
+        foreach (var mate in alum.Materia)
+        {
+            <a href="~/Docente/Alumnos/Calificacion/@(mate.Id)">@mate.IdNombreMateriaNavigation.NombreMateria1</a>
+        }
+        <br />
+        <div id="ac">
+            <a href="~/Docente/Alumnos/Editar/@(alum.Id)">Editar</a>
+            <a href="~/Docente/Alumnos/Eliminar/@(alum.Id)">Eliminar</a>
+        </div>
+        <br />
+        <br />
+    }
+</body>
+</html>

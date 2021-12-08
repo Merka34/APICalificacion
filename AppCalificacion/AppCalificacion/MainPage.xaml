@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppCalificacion.MainPage">
+    <StackLayout>
+        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
+            <Label Text="Calificaciones" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+        </Frame>
+        <Label Text="Sistema de Calificaciones" FontSize="Title" Padding="30,10,30,10"/>
+        <Label Text="Ingrese el nombre del alumno" FontSize="16" Padding="30,0,30,0"/>
+        <Entry Placeholder="Nombre del alumno" x:Name="txtNombre" TextChanged="txtNombre_TextChanged"></Entry>
+        <Label Text="Ingrese la contraseña" FontSize="16" Padding="30,0,30,0"/>
+        <Entry Placeholder="Contraseña" x:Name="txtPassword" IsPassword="True" ></Entry>
+        <Button Text="Acceder" x:Name="btnAcceder" Clicked="btnAcceder_Clicked_1"></Button>
+        <Button Text="Cancelar" IsVisible="False" x:Name="btnCancelar" Clicked="btnCancelar_Clicked"></Button>
+        <Button Text="Desconectar" IsVisible="False" x:Name="btnDesconectar" Clicked="btnDesconectar_Clicked"></Button>
+        <Label x:Name="txtError" FontSize="Medium" HorizontalTextAlignment="Center" TextColor="Yellow"></Label>
+        <Label x:Name="txtPromedioTest" FontSize="Medium"></Label>
+        <ListView x:Name="lstCalificaciones">
+        </ListView>
+    </StackLayout>
+</ContentPage>
