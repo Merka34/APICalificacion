@@ -114,11 +114,11 @@
         <label>Alumno: </label>
         <label>@Model.IdNavigation.IdAlumnoNavigation.NombreAlumno</label><br />
         <label>Periodo 1:</label>
-        <input type="number" id="P1" name="P1" onchange="calculo()"  value="@Model.P1" /><br>
+        <input type="number" id="P1" name="P1" onchange="calculo()" min="0" max="10"  value="@Model.P1" /><br>
         <label>Periodo 2:</label>
-        <input type="number" id="P2" name="P2" onchange="calculo()"  value="@Model.P2" /><br>
+        <input type="number" id="P2" name="P2" onchange="calculo()" min="0" max="10"  value="@Model.P2" /><br>
         <label>Periodo 3:</label>
-        <input type="number" id="P3" name="P3" onchange="calculo()"  value="@Model.P3" />
+        <input type="number" id="P3" name="P3" onchange="calculo()" min="0" max="10"  value="@Model.P3" />
         <label id="pflbl"></label>
         <br />
         <input type="submit" />

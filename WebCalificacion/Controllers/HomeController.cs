@@ -31,7 +31,6 @@ namespace WebCalificacion.Controllers
                 List<Claim> claims = new List<Claim>();
                 claims.Add(new Claim(ClaimTypes.Name, nombre)); 
                 claims.Add(new Claim(ClaimTypes.Role, "Docente"));
-
                 var identidad = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 await HttpContext.SignInAsync(new ClaimsPrincipal(identidad));
                 return RedirectToAction("Index", "Home", new { area = "Docente" });
@@ -40,6 +39,7 @@ namespace WebCalificacion.Controllers
             return View();
         }
 
+        [Route("Logout")]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();

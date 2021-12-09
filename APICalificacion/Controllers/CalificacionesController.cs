@@ -28,12 +28,12 @@ namespace APICalificacion.Controllers
         [HttpGet("{id}")]
         public Calificacion GetByID(int id)
         {
-            var calificacion = Context.Calificacion.Include(x=>x.IdNavigation)
-                .ThenInclude(x=>x.IdNombreMateriaNavigation)
-                .Include(x=>x.IdNavigation.IdAlumnoNavigation)
-                .FirstOrDefault(x=>x.Id==id);
-            
-            if (calificacion==null)
+            var calificacion = Context.Calificacion.Include(x => x.IdNavigation)
+                .ThenInclude(x => x.IdNombreMateriaNavigation)
+                .Include(x => x.IdNavigation.IdAlumnoNavigation)
+                .FirstOrDefault(x => x.Id == id);
+
+            if (calificacion == null)
             {
                 return new Calificacion();
             }
@@ -58,23 +58,38 @@ namespace APICalificacion.Controllers
         [HttpPut]
         public IActionResult Put(Calificacion c)
         {
-            var cal = Context.Calificacion.FirstOrDefault(x=>x.Id == c.Id);
-            if (cal==null)
+            try
             {
-                ModelState.AddModelError("", "No se encontro");
+                var cal = Context.Calificacion.FirstOrDefault(x => x.Id == c.Id);
+                if (cal == null)
+                {
+                    ModelState.AddModelError("", "No se encontro");
+                }
+                if (ModelState.IsValid)
+                {
+                    if (c.P1<=0 || c.P1>=11)
+                    {
+                        ModelState.AddModelError("", "Debe ser entre 0 a 10");
+                        return BadRequest(ModelState);
+                    }
+                    else
+                    {
+                        cal.P1 = c.P1;
+                        cal.P2 = c.P2;
+                        cal.P3 = c.P3;
+                        cal.Pf = (double)(cal.P1 + cal.P2 + cal.P3) / 3;
+                        Context.Update(cal);
+                        Context.SaveChanges();
+                        return Ok();
+                    }
+                }
+                return BadRequest(ModelState);
             }
-
-            if (ModelState.IsValid)
+            catch (Exception ex)
             {
-                cal.P1 = c.P1;
-                cal.P2 = c.P2;
-                cal.P3 = c.P3;
-                cal.Pf = (double)(cal.P1 + cal.P2 + cal.P3) / 3;
-                Context.Update(cal);
-                Context.SaveChanges();
-                return Ok();
+                ModelState.AddModelError("", ex.Message);
+                return BadRequest(ModelState);
             }
-            return BadRequest(ModelState);
         }
     }
 }

@@ -16,12 +16,23 @@ namespace WebCalificacion.Controllers
     [Area("Docente")]
     public class AlumnosController : Controller
     {
-        public IActionResult Index()
+        public string URL { get; set; } = "https://localhost:44397";
+        public async Task<IActionResult> Index()
         {
             WebClient webClient = new WebClient();
-            string listaAlumnos = webClient.DownloadString("https://localhost:44397/api/alumnos");
-            var AlumnoList = JsonConvert.DeserializeObject<IEnumerable<Alumno>>(listaAlumnos);
-            return View(AlumnoList);
+            string listaAlumnos = await webClient.DownloadStringTaskAsync($"{URL}/api/alumnos");
+            if (!string.IsNullOrWhiteSpace(listaAlumnos))
+            {
+                var AlumnoList = JsonConvert.DeserializeObject<IEnumerable<Alumno>>(listaAlumnos);
+                return View(AlumnoList);
+            }
+            else
+            {
+                ModelState.AddModelError("", "Hubo problemas cuando se intento obtener la lista de alumnos");
+                List<Alumno> listaAl = new List<Alumno>();
+                IEnumerable<Alumno> listaAlumno = (IEnumerable<Alumno>)listaAl;
+                return View(listaAlumno);
+            }
         }
 
         public IActionResult Agregar()
@@ -44,21 +55,21 @@ namespace WebCalificacion.Controllers
             string json = JsonConvert.SerializeObject(alu);
             HttpClient httpClient = new HttpClient();
             StringContent httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-            var aaa= await httpClient.PostAsync("https://localhost:44397/api/alumnos/", httpContent);
-            if (aaa.IsSuccessStatusCode)
+            var httpResponse = await httpClient.PostAsync($"{URL}/api/alumnos/", httpContent);
+            if (httpResponse.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
             }
-            string message = await aaa.Content.ReadAsStringAsync();
+            string message = await httpResponse.Content.ReadAsStringAsync();
             ModelState.AddModelError("", message);
             return View();
         }
 
         [HttpGet]
-        public IActionResult Editar(int id)
+        public async Task<IActionResult> Editar(int id)
         {
             WebClient webClient = new WebClient();
-            string alumno = webClient.DownloadString($"https://localhost:44397/api/alumnos/{id}");
+            string alumno = await webClient.DownloadStringTaskAsync($"{URL}/api/alumnos/{id}");
             Alumno al = JsonConvert.DeserializeObject<Alumno>(alumno);
             if (al.Id==0)
             {
@@ -79,7 +90,7 @@ namespace WebCalificacion.Controllers
                 HttpClient httpClient = new HttpClient();
                 string json = JsonConvert.SerializeObject(al);
                 StringContent httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-                var res = await httpClient.PutAsync("https://localhost:44397/api/alumnos/", httpContent);
+                var res = await httpClient.PutAsync($"{URL}/api/alumnos/", httpContent);
                 if (res.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index");
@@ -90,10 +101,10 @@ namespace WebCalificacion.Controllers
             return View(al);
         }
 
-        public IActionResult Eliminar(int id)
+        public async Task<IActionResult> Eliminar(int id)
         {
             WebClient webClient = new WebClient();
-            string alumno = webClient.DownloadString($"https://localhost:44397/api/alumnos/{id}");
+            string alumno = webClient.DownloadString($"{URL}/api/alumnos/{id}");
             Alumno al = JsonConvert.DeserializeObject<Alumno>(alumno);
             if (al.Id==0)
             {
@@ -106,12 +117,12 @@ namespace WebCalificacion.Controllers
         public async Task<IActionResult> Eliminar(Alumno al)
         {
             HttpClient httpClient = new HttpClient();
-            var res = await httpClient.DeleteAsync($"https://localhost:44397/api/alumnos/{al.Id}");
-            if (res.IsSuccessStatusCode)
+            var httpResponse = await httpClient.DeleteAsync($"{URL}/api/alumnos/{al.Id}");
+            if (httpResponse.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
             }
-            string message = await res.Content.ReadAsStringAsync();
+            string message = await httpResponse.Content.ReadAsStringAsync();
             ModelState.AddModelError("", message);
             return View(al);
         }
@@ -119,7 +130,7 @@ namespace WebCalificacion.Controllers
         public IActionResult Calificacion(int id)
         {
             WebClient webClient = new WebClient();
-            string cali = webClient.DownloadString($"https://localhost:44397/api/calificaciones/{id}");
+            string cali = webClient.DownloadString($"{URL}/api/calificaciones/{id}");
             if (!string.IsNullOrWhiteSpace(cali))
             {
                 var cal = JsonConvert.DeserializeObject<Calificacion>(cali);
@@ -134,15 +145,14 @@ namespace WebCalificacion.Controllers
             HttpClient httpClient = new HttpClient();
             string json = JsonConvert.SerializeObject(Cal);
             StringContent httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-            var httpRequest = await httpClient.PutAsync("https://localhost:44397/api/calificaciones/", httpContent);
+            var httpRequest = await httpClient.PutAsync($"{URL}/api/calificaciones/", httpContent);
             if (httpRequest.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
             }
             string message = await httpRequest.Content.ReadAsStringAsync();
             ModelState.AddModelError("", message);
-            return View(Cal);
-            
+            return RedirectToAction("Index");
         }
     }
 }
