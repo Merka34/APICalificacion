@@ -108,7 +108,7 @@
     <form method="post" action="~/Docente/Alumnos/Editar">
         <input name="id" value="@Model.Id" hidden />
         <label>Nombre de usuario:</label>
-        <input type="text" name="NombreAlumno" value="@Model.NombreAlumno" />
+        <input type="text" required name="NombreAlumno" value="@Model.NombreAlumno" />
         <input type="submit" value="Editar" />
         <p>@Html.ValidationSummary()</p>
     </form>

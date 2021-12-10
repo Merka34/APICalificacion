@@ -12,6 +12,8 @@ namespace WebCalificacion.Controllers
 {
     public class HomeController : Controller
     {
+        public string URL { get; set; } = "https://localhost:44397";
+
         public IActionResult Index()
         {
             if (HttpContext.User.Identity.IsAuthenticated)
@@ -25,7 +27,12 @@ namespace WebCalificacion.Controllers
         public async Task<IActionResult> Index(string nombre, string password)
         {
             WebClient web = new WebClient();
-            string cuenta = web.DownloadString($"https://localhost:44397/api/Account/docente/{nombre}/{password}");
+            if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(password))
+            {
+                ModelState.AddModelError("", "Por favor ingrese nombre de usuario o contraseña");
+                return View();
+            }
+            string cuenta = web.DownloadString($"{URL}/api/Account/docente/{nombre}/{password}");
             if (!string.IsNullOrWhiteSpace(cuenta))
             {
                 List<Claim> claims = new List<Claim>();

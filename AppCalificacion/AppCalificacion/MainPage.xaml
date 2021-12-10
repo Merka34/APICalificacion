@@ -16,7 +16,42 @@
         <Button Text="Desconectar" IsVisible="False" x:Name="btnDesconectar" Clicked="btnDesconectar_Clicked"></Button>
         <Label x:Name="txtError" FontSize="Medium" HorizontalTextAlignment="Center" TextColor="Yellow"></Label>
         <Label x:Name="txtPromedioTest" FontSize="Medium"></Label>
-        <ListView x:Name="lstCalificaciones">
-        </ListView>
+        <Grid x:Name="lstCalificacionesHead" Margin="5" IsVisible="False" BackgroundColor="DarkBlue">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width=".6*"></ColumnDefinition>
+                <ColumnDefinition Width=".6*"></ColumnDefinition>
+                <ColumnDefinition Width=".6*"></ColumnDefinition>
+                <ColumnDefinition Width=".6*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Text="Materia"></Label>
+            <Label Grid.Column="1" Text="P1"></Label>
+            <Label Grid.Column="2" Text="P2"></Label>
+            <Label Grid.Column="3" Text="P3"></Label>
+            <Label Grid.Column="4" Text="PF"></Label>
+        </Grid>
+        <CollectionView Margin="5"  x:Name="lstCalificaciones" ItemsSource="{Binding Calificacions}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid BackgroundColor="Black">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width=".6*"></ColumnDefinition>
+                            <ColumnDefinition Width=".6*"></ColumnDefinition>
+                            <ColumnDefinition Width=".6*"></ColumnDefinition>
+                            <ColumnDefinition Width=".6*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Text="{Binding IdNavigation.IdNombreMateriaNavigation.NombreMateria1}"></Label>
+                        <Label Grid.Column="1" Text="{Binding P1}"></Label>
+                        <Label Grid.Column="2" Text="{Binding P2}"></Label>
+                        <Label Grid.Column="3" Text="{Binding P3}"></Label>
+                        <Label Grid.Column="4" Text="{Binding Pf}"></Label>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </StackLayout>
 </ContentPage>

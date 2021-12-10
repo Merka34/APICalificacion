@@ -19,6 +19,7 @@ namespace AppCalificacion
         public MainPage()
         {
             InitializeComponent();
+            this.BindingContext = this;
             webClient.DownloadStringCompleted += WebClient_DownloadStringCompleted;
         }
 
@@ -111,14 +112,15 @@ namespace AppCalificacion
                         List<Calificacion> listCalificaciones = JsonConvert.DeserializeObject<List<Calificacion>>(JSON).ToList();
                         txtError.TextColor = Color.Green;
                         txtError.Text = "Calificaciones obtenidas con éxito";
-
+                        Calificacions = listCalificaciones;
                         ca.Add($"|    P1    |    P2    |    P3    |    Pf    |    Materia    |");
                         foreach (var item in listCalificaciones)
                         {
                             ca.Add($"|    {item.P1}    |    {item.P2}    |    {item.P3}    |    {item.Pf}   |   {item.IdNavigation.IdNombreMateriaNavigation.NombreMateria1}   |");
 
                         }
-                        lstCalificaciones.ItemsSource = ca;
+                        lstCalificaciones.ItemsSource = listCalificaciones;
+                        lstCalificacionesHead.IsVisible = true;
                         btnDesconectar.IsVisible = true;
                     }
                     else
@@ -151,8 +153,11 @@ namespace AppCalificacion
             btnAcceder.IsVisible = true;
             txtNombre.IsReadOnly = false;
             txtPassword.IsReadOnly = false;
+            txtNombre.Text = "";
+            txtPassword.Text = "";
             ca.Clear();
             lstCalificaciones.ItemsSource = null;
+            lstCalificacionesHead.IsVisible = false;
             txtError.TextColor = Color.Green;
             txtError.Text = "Se ha deslogueado con éxito";
         }

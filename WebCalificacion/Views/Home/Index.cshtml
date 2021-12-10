@@ -67,9 +67,9 @@
         <h1>Iniciar Sesión</h1>
         <form method="post" action="~/Home/Index">
             <label>Nombre de usuario:</label><br>
-            <input name="nombre" type="text" /><br>
+            <input name="nombre" required type="text" /><br>
             <label>Contraseña:</label><br>
-            <input name="password" type="password" /><br>
+            <input name="password" required type="password" /><br>
             <input type="submit" />
             <p>@Html.ValidationSummary()</p>
         </form>
